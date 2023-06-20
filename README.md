@@ -1,6 +1,6 @@
 # opencv-ecr-lambda
 
-Lambda and ECR please work thanks :)
+Extracts edges from an image stored in S3. Lambda and ECR please work ty :).
 
 ## Usage
 

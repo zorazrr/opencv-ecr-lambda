@@ -25,15 +25,16 @@ def lambda_handler(event, context):
     file_obj = s3.get_object(Bucket=bucket, Key=key)
     file_content = file_obj["Body"].read()
     np_array = np.fromstring(file_content, np.uint8)
-    image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+    image = cv2.imdecode(np_array, 0)
 
     # Process image
-    image_blur = cv2.GaussianBlur(image, (7, 7), 0)
+    image_blur = cv2.GaussianBlur(image, (5, 5), 0)
     edges = cv2.Canny(image_blur, 100, 200)
-    cv2.imwrite("/tmp/edge.jpg", edges)
+    final_image = cv2.bitwise_not(edges)
+    cv2.imwrite("/tmp/edge.jpg", final_image)
 
     # Upload processed image
     s3.put_object(Bucket=bucket, Key=key, Body=open(
-        "/tmp/edge.jpg", "rb").read())
+        "/tmp/processed_image.jpg", "rb").read())
 
-    return "Wrote processed image to S3"
+    return "Successfully wrote processed image to S3!"
