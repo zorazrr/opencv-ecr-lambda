@@ -1,0 +1,3 @@
+{
+    "Body": "{\"image_url\": \"s3://<bucket_name>/<key>\"}"
+}
