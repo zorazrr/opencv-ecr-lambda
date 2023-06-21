@@ -1,10 +1,13 @@
 # opencv-ecr-lambda
 
-Extracts edges from an image stored in S3. Lambda and ECR please work ty :).
+A Lambda function that extracts edges from an image stored in S3, using OpenCV on ECR.
 
 ## Usage
 
-Make sure Docker and AWS CLI are installed.
+Make sure
+
+- Docker and AWS CLI are installed
+- AWS IAM policy, VPC, and S3 are configured
 
 To build the image on local:
 
@@ -27,7 +30,7 @@ docker push <account_id>.dkr.ecr.us-west-1.amazonaws.com/opencv-ecr-lambda:v1
 
 ## GitHub Workflow
 
-Otherwise, GitHub should take care of updating the container image on push. Several secrets are needed for this:
+Alternatively, GitHub should take care of updating the container image on push. Several secrets are needed for this:
 
 ```
 ACCESS_KEY=
@@ -38,3 +41,11 @@ REPO_NAME=
 ## Testing
 
 Test the Lambda function with the event in `event.json`.
+
+## Notes on Lambda
+
+There are several options for configuring dependencies with Lambda:
+
+- On Lambda Layers (there is a limitation in size, not enough for large packages)
+- On container images with Elastic Container Registry (CR) (10GB size limit, enough in this case)
+- On Elastic File System (EFS) mounted on EC2 (configuration is more complicated, more expensive)

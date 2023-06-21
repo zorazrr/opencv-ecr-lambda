@@ -31,7 +31,7 @@ def lambda_handler(event, context):
     image_blur = cv2.GaussianBlur(image, (5, 5), 0)
     edges = cv2.Canny(image_blur, 100, 200)
     final_image = cv2.bitwise_not(edges)
-    cv2.imwrite("/tmp/edge.jpg", final_image)
+    cv2.imwrite("/tmp/processed_image.jpg", final_image)
 
     # Upload processed image
     s3.put_object(Bucket=bucket, Key=key, Body=open(
